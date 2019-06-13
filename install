@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#git clone https://github.com/gomasiyo/dotfiles.git ~/.dotfiles
+
+
+DOTPATH=.dotfiles
+CONFIG=.config
+LIB=lib
+DEINPATH="$HOME/$CONFIG/nvim/dein"
+
+cd "$HOME/$DOTPATH/$CONFIG"
+
+if [ ! -e "$HOME/$CONFIG" ]; then
+    mkdir "$HOME/$CONFIG"
+    echo "Create Config Dir"
+fi
+
+for f in ?*
+do
+    [[ "$f" == ".git" ]] && continue
+    [[ "$f" == ".DS_Store" ]] && continue
+
+    ln -sv "$DOTPATH/$CONFIG/$f" "$HOME/$CONFIG/$f"
+done
+
+cd "$HOME"
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > "$HOME/$DOTPATH/$LIB/dein.sh"
+
+sh "$HOME/$DOTPATH/$LIB/dein.sh" "$DEINPATH"
+
