@@ -20,7 +20,8 @@ do
     [[ "$f" == ".git" ]] && continue
     [[ "$f" == ".DS_Store" ]] && continue
 
-    ln -sv "$DOTPATH/$CONFIG/$f" "$HOME/$CONFIG/$f"
+    ln -sv "$HOME/$DOTPATH/$CONFIG/$f" "$HOME/$CONFIG/$f"
+    pwd
 done
 
 cd "$HOME"
