@@ -1,44 +1,102 @@
-" dein Plugin Loads "{{{
-if &compatible
-  set nocompatible               " Be iMproved
-endif
+" Plug Plugin Loads "{{{
 
-" Required:
-set runtimepath+=~/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+call plug#begin('~/.config/nvim/plugged')
 
-" Required:
-if dein#load_state('~/.config/nvim/dein')
-  call dein#begin('~/.config/nvim/dein')
+" Install Plugins
+Plug 'cocopon/iceberg.vim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'preservim/nerdtree' |
+            \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('~/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
-  call dein#load_toml('~/.config/nvim/rc/dein.toml', {'lazy': 0})
-  call dein#load_toml('~/.config/nvim/rc/dein_lazy.toml', {'lazy': 1})
-
-  " Add or remove your plugins here like this:
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
-
-  " Required:
-  call dein#end()
-  call dein#save_state()
-endif
-
-" Required:
-filetype plugin indent on
-syntax enable
-
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-
-" Clear Cacha
-nmap <C-x> :call dein#recache_runtimepath()<CR>
+call plug#end()
 
 "}}} end dein Plugin Loads
+" SetUp NERDTree {{{
+
+" NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+
+" }}}
+" SetUp Vim AirLine {{{
+
+let g:airline#extensions#tabline#enabled = 1
+nmap <C-j> <Plug>AirlineSelectPrevTab
+nmap <C-k> <Plug>AirlineSelectNextTab
+nmap <silent> q :bd<CR>
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_idx_format = {
+            \ '0': '0 ',
+            \ '1': '1 ',
+            \ '2': '2 ',
+            \ '3': '3 ',
+            \ '4': '4 ',
+            \ '5': '5 ',
+            \ '6': '6 ',
+            \ '7': '7 ',
+            \ '8': '8 ',
+            \ '9': '9 '
+            \}
+
+" Powerline系フォントを利用する
+set laststatus=2
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
+" let g:airline_theme = 'tomorrow'
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.crypt = '🔒'
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.maxlinenr = '㏑'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.spell = 'Ꞩ'
+let g:airline_symbols.notexists = '∄'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.maxlinenr = ''
+
+" }}}
+" Colorsheme {{{
+
+if isdirectory(expand("~/.config/nvim/plugged/iceberg.vim"))
+    set background=dark
+    colorscheme iceberg
+endif
+
+" }}}
 " Init Config {{{
+
+
 au FileType vim setlocal foldmethod=marker
 
 " 言語設定
@@ -92,5 +150,3 @@ set ignorecase
 set ambiwidth=single
 
 " }}} end Init Config
-
-
